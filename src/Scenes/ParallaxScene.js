@@ -32,20 +32,10 @@ export default class ParallaxScene extends Phaser.Scene {
 
     this.add.image(width * 0.5, height * 0.5, 'sky').setScrollFactor(0);
 
-    createBGLoop(this, 1, 'mountain', 0.25);
-    // createBGLoop(this, 3, 'plateau', 0.5);
-
-    // const m = this.add.image(0, height, 'mountain').setOrigin(0, 1).setScrollFactor(0.25);
-    // this.add.image(m.width, height, 'mountain').setOrigin(0, 1).setScrollFactor(0.25);
-
-    // const p = this.add.image(0, height, 'plateau').setOrigin(0, 1).setScrollFactor(0.5);
-    // this.add.image(p.width, height, 'plateau').setOrigin(0, 1).setScrollFactor(0.5);
-
-    // const g = this.add.image(0, height, 'ground').setOrigin(0, 1).setScrollFactor(1);
-    // this.add.image(g.width, height, 'ground').setOrigin(0, 1).setScrollFactor(1);
-
-    // const pl = this.add.image(0, height, 'plant').setOrigin(0, 1).setScrollFactor(1.25);
-    // this.add.image(pl.width, height, 'plant').setOrigin(0, 1).setScrollFactor(1.25);
+    createBGLoop(this, 10, 'mountain', 0.25);
+    createBGLoop(this, 10, 'plateau', 0.5);
+    createBGLoop(this, 10, 'ground', 1);
+    createBGLoop(this, 10, 'plant', 1.25);
 
     this.cameras.main.setBounds(0, 0, width * 10, height);
   }
