@@ -48,3 +48,8 @@ Give a ⭐️ if you like this project!
 ## 📝 License
 
 This project is [MIT](LICENSE) licensed.
+
+I’m Not What I Thought by Darren Curtis
+Creative Commons Attribution 3.0 Unported License
+https://creativecommons.org/licenses/by/3.0/
+Music promoted by https://www.chosic.com/
