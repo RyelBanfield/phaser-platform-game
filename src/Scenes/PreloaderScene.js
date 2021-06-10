@@ -11,7 +11,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     // add logo image
-    this.add.image(400, 200, 'logo');
+    this.add.image(960, 540, 'logo').setScale(1.5);
 
     // display progress bar
     const progressBar = this.add.graphics();
@@ -23,8 +23,8 @@ export default class PreloaderScene extends Phaser.Scene {
     const { height } = this.cameras.main;
     const loadingText = this.make.text({
       x: width / 2,
-      y: height / 2 - 50,
-      text: 'Loading...',
+      y: height / 2 + 250,
+      text: 'LOADING',
       style: {
         font: '20px monospace',
         fill: '#ffffff',
@@ -34,7 +34,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
     const percentText = this.make.text({
       x: width / 2,
-      y: height / 2 - 5,
+      y: height / 2 + 300,
       text: '0%',
       style: {
         font: '18px monospace',
@@ -45,7 +45,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
     const assetText = this.make.text({
       x: width / 2,
-      y: height / 2 + 50,
+      y: height / 2 + 350,
       text: '',
       style: {
         font: '18px monospace',
