@@ -1,13 +1,16 @@
 import Phaser from 'phaser';
 
-const createBGLoop = (scene, count, texture, scrollFactor) => {
+const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
+  const textureWidth = scene.textures.get(texture).getSourceImage().width;
+  const count = Math.ceil(totalWidth / textureWidth) * scrollFactor;
+
   let x = 0;
-  for (let i = 0; i < count; i++) {
-    const m = scene.add.image(x, scene.scale.height, texture)
+  for (let i = 0; i < count; i += 1) {
+    const bgImage = scene.add.image(x, scene.scale.height, texture)
       .setOrigin(0, 1)
       .setScrollFactor(scrollFactor);
 
-    x += m.width;
+    x += bgImage.width;
   }
 };
 
@@ -29,13 +32,14 @@ export default class ParallaxScene extends Phaser.Scene {
   create() {
     const { width } = this.scale;
     const { height } = this.scale;
+    const totalWidth = width * 10;
 
     this.add.image(width * 0.5, height * 0.5, 'sky').setScrollFactor(0);
 
-    createBGLoop(this, 10, 'mountain', 0.25);
-    createBGLoop(this, 10, 'plateau', 0.5);
-    createBGLoop(this, 10, 'ground', 1);
-    createBGLoop(this, 10, 'plant', 1.25);
+    createBGLoop(this, totalWidth, 'mountain', 0.25);
+    createBGLoop(this, totalWidth, 'plateau', 0.5);
+    createBGLoop(this, totalWidth, 'ground', 1);
+    createBGLoop(this, totalWidth, 'plant', 1.25);
 
     this.cameras.main.setBounds(0, 0, width * 10, height);
   }
