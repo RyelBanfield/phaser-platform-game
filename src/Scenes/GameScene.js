@@ -24,7 +24,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     const { width } = this.scale;
     const { height } = this.scale;
-    const totalWidth = width * 2;
+    const totalWidth = width * 4;
 
     this.add.image(width * 0.5, height * 0.5, 'sky').setScrollFactor(0);
 
@@ -34,13 +34,12 @@ export default class GameScene extends Phaser.Scene {
     createBGLoop(this, totalWidth, 'plant', 1.25);
     const platforms = this.physics.add.staticGroup();
     platforms.create(width * 0.5, height, 'ground');
+    platforms.create(width, height, 'ground');
 
-    this.cameras.main.setBounds(0, 0, width * 2, height);
+    this.cameras.main.setBounds(0, 0, width * 1.5, height);
 
-    player = this.physics.add.sprite(100, 450, 'playerIdle');
+    player = this.physics.add.sprite(200, 450, 'playerIdle');
     player.setScale(3);
-
-    player.setCollideWorldBounds(true);
 
     this.anims.create({
       key: 'idle',
@@ -76,24 +75,69 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.cursors.right.isDown) {
-      player.flipX = false;
-      player.anims.play('run', true);
-      player.setVelocityX(400);
-    } else if (this.cursors.left.isDown) {
-      player.flipX = true;
-      player.anims.play('run', true);
-      player.setVelocityX(-400);
-    } else {
-      player.anims.play('idle', true);
-      player.setVelocityX(0);
+    const cam = this.cameras.main;
+    const speed = 5;
+
+    if (player.x <= 100) {
+      if (this.cursors.right.isDown) {
+        cam.scrollX += speed;
+        player.flipX = false;
+        player.anims.play('run', true);
+        player.setVelocityX(400);
+      } else {
+        player.anims.play('idle', true);
+        player.setVelocityX(0);
+      }
+      if (this.cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-600);
+        player.anims.play('jump', true);
+      }
+      if (!player.body.touching.down) {
+        player.anims.play('fall', true);
+      }
     }
-    if (this.cursors.up.isDown && player.body.touching.down) {
-      player.setVelocityY(-600);
-      player.anims.play('jump', true);
+
+    if (player.x > 100) {
+      if (this.cursors.right.isDown) {
+        cam.scrollX += speed;
+        player.flipX = false;
+        player.anims.play('run', true);
+        player.setVelocityX(400);
+      } else if (this.cursors.left.isDown) {
+        cam.scrollX -= speed;
+        player.flipX = true;
+        player.anims.play('run', true);
+        player.setVelocityX(-400);
+      } else {
+        player.anims.play('idle', true);
+        player.setVelocityX(0);
+      }
+      if (this.cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-600);
+        player.anims.play('jump', true);
+      }
+      if (!player.body.touching.down) {
+        player.anims.play('fall', true);
+      }
     }
-    if (!player.body.touching.down) {
-      player.anims.play('fall', true);
+
+    if (player.x >= 2775) {
+      if (this.cursors.left.isDown) {
+        cam.scrollX -= speed;
+        player.flipX = true;
+        player.anims.play('run', true);
+        player.setVelocityX(-400);
+      } else {
+        player.anims.play('idle', true);
+        player.setVelocityX(0);
+      }
+      if (this.cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-600);
+        player.anims.play('jump', true);
+      }
+      if (!player.body.touching.down) {
+        player.anims.play('fall', true);
+      }
     }
   }
 }
