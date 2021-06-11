@@ -5,12 +5,9 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
-  preload() {
-    // load images
-    this.load.image('logo', 'assets/logo.png');
-  }
+  preload() {}
 
   create() {
-    this.scene.start('parallax-scene');
+    this.scene.start('Main');
   }
 }

@@ -17,7 +17,7 @@ export default class PreloaderScene extends Phaser.Scene {
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 320, 50);
+    progressBox.fillRect(800, 920, 320, 50);
 
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
@@ -59,7 +59,7 @@ export default class PreloaderScene extends Phaser.Scene {
       percentText.setText(`${parseInt(value * 100, 10)}%`);
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(250, 280, 300 * value, 30);
+      progressBar.fillRect(810, 930, 300 * value, 30);
     });
 
     // update file progress text
@@ -86,10 +86,16 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('box', 'assets/ui/grey_box.png');
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
     this.load.audio('bgMusic', ['assets/GameMusic.mp3']);
+
+    this.load.image('sky', 'assets/BG/sky.png');
+    this.load.image('mountain', 'assets/BG/mountain.png');
+    this.load.image('plateau', 'assets/BG/plateau.png');
+    this.load.image('ground', 'assets/BG/ground.png');
+    this.load.image('plant', 'assets/BG/plant.png');
   }
 
   ready() {
-    this.scene.start('Title');
+    // this.scene.start('Title');
     this.readyCount += 1;
     if (this.readyCount === 2) {
       this.scene.start('Title');
