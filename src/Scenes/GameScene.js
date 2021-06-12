@@ -88,13 +88,6 @@ export default class GameScene extends Phaser.Scene {
         player.anims.play('idle', true);
         player.setVelocityX(0);
       }
-      if (this.cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-600);
-        player.anims.play('jump', true);
-      }
-      if (!player.body.touching.down) {
-        player.anims.play('fall', true);
-      }
     }
 
     if (player.x > 100) {
@@ -112,13 +105,6 @@ export default class GameScene extends Phaser.Scene {
         player.anims.play('idle', true);
         player.setVelocityX(0);
       }
-      if (this.cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-600);
-        player.anims.play('jump', true);
-      }
-      if (!player.body.touching.down) {
-        player.anims.play('fall', true);
-      }
     }
 
     if (player.x >= 2775) {
@@ -131,13 +117,26 @@ export default class GameScene extends Phaser.Scene {
         player.anims.play('idle', true);
         player.setVelocityX(0);
       }
-      if (this.cursors.up.isDown && player.body.touching.down) {
+    }
+
+    const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+
+    if (didPressJump) {
+      if (player.body.onFloor()) {
+        this.canDoubleJump = true;
+        player.setVelocityY(-500);
+      } else if (this.canDoubleJump) {
+        this.canDoubleJump = false;
         player.setVelocityY(-600);
-        player.anims.play('jump', true);
       }
-      if (!player.body.touching.down) {
-        player.anims.play('fall', true);
-      }
+    }
+
+    if (this.cursors.up.isDown) {
+      player.anims.play('jump', true);
+    }
+
+    if (!this.cursors.up.isDown && !player.body.onFloor()) {
+      player.anims.play('fall', true);
     }
   }
 }
