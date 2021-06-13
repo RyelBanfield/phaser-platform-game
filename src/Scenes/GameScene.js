@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 let player;
+let coins;
 
 const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   const textureWidth = scene.textures.get(texture).getSourceImage().width;
@@ -77,9 +78,21 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.physics.add.collider(player, platforms);
-
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    coins = this.physics.add.group({
+      key: 'coin',
+      repeat: 16,
+      setXY: { x: 350, y: 0, stepX: 150 },
+      setScale: { x: 0.25, y: 0.25 },
+    });
+
+    coins.children.iterate((child) => {
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+    });
+
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(coins, platforms);
   }
 
   update() {
