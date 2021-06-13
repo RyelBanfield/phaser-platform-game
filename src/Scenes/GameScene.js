@@ -32,14 +32,22 @@ export default class GameScene extends Phaser.Scene {
     createBGLoop(this, totalWidth, 'plateau', 0.5);
     createBGLoop(this, totalWidth, 'ground', 1.25);
     createBGLoop(this, totalWidth, 'plant', 1.25);
+
     const platforms = this.physics.add.staticGroup();
     platforms.create(width * 0.5, height, 'ground');
     platforms.create(width, height, 'ground');
+
+    platforms.create(800, 700, 'platform');
+    platforms.create(1700, 450, 'platform');
+    platforms.create(2700, 300, 'platform');
+    platforms.create(400, 300, 'platform');
 
     this.cameras.main.setBounds(0, 0, width * 1.5, height);
 
     player = this.physics.add.sprite(200, 450, 'playerIdle');
     player.setScale(3);
+    player.setSize(40, 50);
+    player.body.offset.y = 60;
 
     this.anims.create({
       key: 'idle',
@@ -80,10 +88,10 @@ export default class GameScene extends Phaser.Scene {
 
     if (player.x <= 100) {
       if (this.cursors.right.isDown) {
-        cam.scrollX += speed;
         player.flipX = false;
         player.anims.play('run', true);
         player.setVelocityX(400);
+        cam.scrollX += speed;
       } else {
         player.anims.play('idle', true);
         player.setVelocityX(0);
@@ -92,15 +100,17 @@ export default class GameScene extends Phaser.Scene {
 
     if (player.x > 100) {
       if (this.cursors.right.isDown) {
-        cam.scrollX += speed;
         player.flipX = false;
         player.anims.play('run', true);
         player.setVelocityX(400);
+        if (player.body.velocity.x !== 0) {
+          cam.scrollX += speed;
+        }
       } else if (this.cursors.left.isDown) {
-        cam.scrollX -= speed;
         player.flipX = true;
         player.anims.play('run', true);
         player.setVelocityX(-400);
+        cam.scrollX -= speed;
       } else {
         player.anims.play('idle', true);
         player.setVelocityX(0);
@@ -109,10 +119,10 @@ export default class GameScene extends Phaser.Scene {
 
     if (player.x >= 2775) {
       if (this.cursors.left.isDown) {
-        cam.scrollX -= speed;
         player.flipX = true;
         player.anims.play('run', true);
         player.setVelocityX(-400);
+        cam.scrollX -= speed;
       } else {
         player.anims.play('idle', true);
         player.setVelocityX(0);
@@ -127,7 +137,7 @@ export default class GameScene extends Phaser.Scene {
         player.setVelocityY(-500);
       } else if (this.canDoubleJump) {
         this.canDoubleJump = false;
-        player.setVelocityY(-600);
+        player.setVelocityY(-500);
       }
     }
 

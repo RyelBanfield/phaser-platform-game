@@ -92,6 +92,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('plateau', 'assets/BG/plateau.png');
     this.load.image('ground', 'assets/BG/ground.png');
     this.load.image('plant', 'assets/BG/plant.png');
+    this.load.image('platform', 'assets/BG/platform.png');
 
     this.load.spritesheet('playerIdle', 'assets/player/Idle.png', { frameWidth: 180, frameHeight: 130 });
     this.load.spritesheet('playerRun', 'assets/player/Run.png', { frameWidth: 180, frameHeight: 130 });
