@@ -30,7 +30,7 @@ function collectCoin(player, coin) {
   score += 10;
   scoreText.setText(`SCORE: ${score}`);
 
-  if (coins.countActive(true) === 0) {
+  if (coins.countActive(true) === 11) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
     });
@@ -162,7 +162,8 @@ export default class GameScene extends Phaser.Scene {
     const speed = 5;
 
     if (gameOver) {
-      return;
+      this.scene.restart('Game');
+      this.scene.start('Title');
     }
 
     if (player.x <= 100) {
