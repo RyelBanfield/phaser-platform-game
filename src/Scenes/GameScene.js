@@ -1,7 +1,12 @@
 import Phaser from 'phaser';
 
 let player;
+let platforms;
 let coins;
+let score;
+let bombs;
+let scoreText;
+let gameOver = false;
 
 const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   const textureWidth = scene.textures.get(texture).getSourceImage().width;
@@ -17,12 +22,44 @@ const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   }
 };
 
+function collectCoin(player, coin) {
+  coin.disableBody(true, true);
+
+  score += 10;
+  scoreText.setText(`SCORE: ${score}`);
+  console.log(score);
+  
+  if (coins.countActive(true) === 0) {
+    coins.children.iterate((child) => {
+      child.enableBody(true, child.x, 0, true, true);
+    });
+
+    const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+    const bomb = bombs.create(x, 16, 'bomb');
+    bomb.setBounce(1);
+    bomb.setCollideWorldBounds(true);
+    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    bomb.allowGravity = false;
+  }
+}
+
+function hitBomb(player, bomb) {
+  this.physics.pause();
+
+  player.setTint(0xff0000);
+  player.anims.play('death');
+
+  gameOver = true;
+}
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
 
   create() {
+    // CREATE BACKGROUNDS
     const { width } = this.scale;
     const { height } = this.scale;
     const totalWidth = width * 4;
@@ -34,7 +71,8 @@ export default class GameScene extends Phaser.Scene {
     createBGLoop(this, totalWidth, 'ground', 1.25);
     createBGLoop(this, totalWidth, 'plant', 1.25);
 
-    const platforms = this.physics.add.staticGroup();
+    // CREATE PLATFORMS
+    platforms = this.physics.add.staticGroup();
     platforms.create(width * 0.5, height, 'ground');
     platforms.create(width, height, 'ground');
 
@@ -43,13 +81,16 @@ export default class GameScene extends Phaser.Scene {
     platforms.create(2700, 300, 'platform');
     platforms.create(400, 300, 'platform');
 
+    // SET CAMERA BOUNDARIES
     this.cameras.main.setBounds(0, 0, width * 1.5, height);
 
+    // PLAYER
     player = this.physics.add.sprite(200, 450, 'playerIdle');
     player.setScale(3);
-    player.setSize(40, 50);
-    player.body.offset.y = 60;
+    player.setSize(47, 49);
+    player.body.offset.y = 65;
 
+    // ANIMATIONS
     this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('playerIdle', { start: 0, end: 10 }),
@@ -78,8 +119,14 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.anims.create({
+      key: 'death',
+      frames: this.anims.generateFrameNumbers('playerDeath', { start: 0, end: 10 }),
+      frameRate: 15,
+      repeat: -1,
+    });
 
+    // COINS
     coins = this.physics.add.group({
       key: 'coin',
       repeat: 16,
@@ -91,13 +138,28 @@ export default class GameScene extends Phaser.Scene {
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
 
+    bombs = this.physics.add.group();
+
+    // CREATE SCORE TEXT
+    scoreText = this.add.text(player.body.position.x, 16, 'SCORE: 0', { fontSize: '36px', fill: '#000' });
+
+    this.cursors = this.input.keyboard.createCursorKeys();
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(coins, platforms);
+    // this.physics.add.collider(bombs, platforms);
+
+    this.physics.add.overlap(player, coins, collectCoin, null, this);
+    this.physics.add.collider(player, bombs, hitBomb, null, this);
   }
 
   update() {
+    scoreText.x = player.body.position.x;
     const cam = this.cameras.main;
     const speed = 5;
+
+    if (gameOver) {
+      return;
+    }
 
     if (player.x <= 100) {
       if (this.cursors.right.isDown) {

@@ -94,11 +94,13 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('plant', 'assets/BG/plant.png');
     this.load.image('platform', 'assets/BG/platform.png');
     this.load.image('coin', 'assets/BG/coin.png');
+    this.load.image('bomb', 'assets/BG/bomb.png');
 
     this.load.spritesheet('playerIdle', 'assets/player/Idle.png', { frameWidth: 180, frameHeight: 130 });
     this.load.spritesheet('playerRun', 'assets/player/Run.png', { frameWidth: 180, frameHeight: 130 });
     this.load.spritesheet('playerJump', 'assets/player/Jump.png', { frameWidth: 180, frameHeight: 130 });
     this.load.spritesheet('playerFall', 'assets/player/Fall.png', { frameWidth: 180, frameHeight: 130 });
+    this.load.spritesheet('playerDeath', 'assets/player/Death.png', { frameWidth: 180, frameHeight: 130 });
   }
 
   ready() {
