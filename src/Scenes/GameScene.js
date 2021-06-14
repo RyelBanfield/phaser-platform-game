@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
+import gameConfig from '../Config/config';
 
 let player;
 let platforms;
 let coins;
-let score;
+let score = 0;
 let bombs;
+let nameText;
 let scoreText;
 let gameOver = false;
 
@@ -27,8 +29,7 @@ function collectCoin(player, coin) {
 
   score += 10;
   scoreText.setText(`SCORE: ${score}`);
-  console.log(score);
-  
+
   if (coins.countActive(true) === 0) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
@@ -37,6 +38,7 @@ function collectCoin(player, coin) {
     const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
     const bomb = bombs.create(x, 16, 'bomb');
+    bomb.setScale(0.25);
     bomb.setBounce(1);
     bomb.setCollideWorldBounds(true);
     bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
@@ -44,7 +46,7 @@ function collectCoin(player, coin) {
   }
 }
 
-function hitBomb(player, bomb) {
+function hitBomb(player) {
   this.physics.pause();
 
   player.setTint(0xff0000);
@@ -141,12 +143,13 @@ export default class GameScene extends Phaser.Scene {
     bombs = this.physics.add.group();
 
     // CREATE SCORE TEXT
-    scoreText = this.add.text(player.body.position.x, 16, 'SCORE: 0', { fontSize: '36px', fill: '#000' });
+    nameText = this.add.text(player.body.position.x, 10, `${gameConfig.user}`, { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(player.body.position.x, 40, 'SCORE: 0', { fontSize: '32px', fill: '#000' });
 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(coins, platforms);
-    // this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(bombs, platforms);
 
     this.physics.add.overlap(player, coins, collectCoin, null, this);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
@@ -154,6 +157,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     scoreText.x = player.body.position.x;
+    nameText.x = player.body.position.x;
     const cam = this.cameras.main;
     const speed = 5;
 
