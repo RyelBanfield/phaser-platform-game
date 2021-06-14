@@ -1,10 +1,14 @@
 import Phaser from 'phaser';
 import gameConfig from '../Config/config';
+import { postScore } from './LeaderboardScene';
 
 let player;
 let platforms;
 let coins;
-let score = 0;
+let score = {
+  user: gameConfig.user,
+  points: 0,
+};
 let bombs;
 let nameText;
 let scoreText;
@@ -27,10 +31,10 @@ const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
 function collectCoin(player, coin) {
   coin.disableBody(true, true);
 
-  score += 10;
-  scoreText.setText(`SCORE: ${score}`);
+  score.points += 10;
+  scoreText.setText(`SCORE: ${score.points}`);
 
-  if (coins.countActive(true) === 11) {
+  if (coins.countActive(true) === 16) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
     });
@@ -162,8 +166,12 @@ export default class GameScene extends Phaser.Scene {
     const speed = 5;
 
     if (gameOver) {
-      this.scene.restart('Game');
-      this.scene.start('Title');
+      this.scene.transition({
+        target: 'LeaderBoard',
+        duration: 3000,
+        remove: true,
+      });
+      return;
     }
 
     if (player.x <= 100) {
