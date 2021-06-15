@@ -8,6 +8,8 @@ A platform game built with Phaser JS.
 
 Additional description about the project and its features.
 
+View the GGD [here](./GGD.md)
+
 ## Built With
 
 - JavaScript

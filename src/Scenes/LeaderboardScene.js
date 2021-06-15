@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import config from '../Config/config';
 import Button from '../Objects/Button';
 
+const fetch = require('node-fetch');
+
 const url = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/7igtBCocAtE2Il7lPcAc/scores';
 
 let scores;
@@ -10,11 +12,10 @@ const getScores = () => {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
       scores = data.result;
     })
     .catch((error) => {
-      console.log.error('Error:', error);
+      throw new Error('Error:', error);
     });
 };
 

@@ -18,11 +18,8 @@ export default class endScene extends Phaser.Scene {
         },
         body: JSON.stringify(score),
       }).then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
-        })
         .catch((error) => {
-          console.log.error('Error:', error);
+          throw new Error('Error:', error);
         });
     };
     postScore(score);

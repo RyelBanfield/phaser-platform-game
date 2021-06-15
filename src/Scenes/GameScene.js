@@ -13,8 +13,6 @@ export const score = {
   score: 0,
 };
 
-console.log(gameConfig.user);
-
 const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   const textureWidth = scene.textures.get(texture).getSourceImage().width;
   const count = Math.ceil(totalWidth / textureWidth) * scrollFactor;
@@ -46,7 +44,7 @@ function collectCoin(player, coin) {
     bomb.setScale(0.25);
     bomb.setBounce(1);
     bomb.setCollideWorldBounds(true);
-    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    bomb.setVelocity(Phaser.Math.Between(200, 800), 50);
     bomb.allowGravity = false;
   }
 }
