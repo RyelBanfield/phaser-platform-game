@@ -1,7 +1,5 @@
 import Phaser from 'phaser';
 import gameConfig from '../Config/config';
-// eslint-disable-next-line import/no-cycle
-import { postScore } from './EndScene';
 
 let player;
 let platforms;
@@ -12,8 +10,10 @@ let scoreText;
 let gameOver = false;
 export const score = {
   user: gameConfig.user,
-  points: 0,
+  score: 0,
 };
+
+console.log(gameConfig.user);
 
 const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   const textureWidth = scene.textures.get(texture).getSourceImage().width;
@@ -32,10 +32,10 @@ const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
 function collectCoin(player, coin) {
   coin.disableBody(true, true);
 
-  score.points += 10;
-  scoreText.setText(`SCORE: ${score.points}`);
+  score.score += 10;
+  scoreText.setText(`SCORE: ${score.score}`);
 
-  if (coins.countActive(true) === 16) {
+  if (coins.countActive(true) === 0) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
     });
@@ -167,6 +167,7 @@ export default class GameScene extends Phaser.Scene {
     const speed = 5;
 
     if (gameOver) {
+      score.user = gameConfig.user;
       this.scene.transition({
         target: 'End',
         duration: 3000,

@@ -15,6 +15,7 @@ const gameConfig = {
       gravity: { y: 600 },
     },
   },
+  user: '',
 };
 
 export default gameConfig;
