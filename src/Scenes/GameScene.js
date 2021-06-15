@@ -35,7 +35,7 @@ function collectCoin(player, coin) {
   score.score += 10;
   scoreText.setText(`SCORE: ${score.score}`);
 
-  if (coins.countActive(true) === 15) {
+  if (coins.countActive(true) === 0) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
     });
