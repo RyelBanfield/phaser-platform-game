@@ -1,6 +1,6 @@
 # Phaser Platform Game
 
-[Click here to view live demo]()
+[Click here to view live demo](https://ryelbanfield.github.io/phaser-platform-game/)
 
 A platform game built with Phaser JS.
 
