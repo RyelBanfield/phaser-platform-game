@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
-import gameConfig from '../Config/config';
+import config from '../Config/config';
+// eslint-disable-next-line import/no-cycle
+import { score } from './GameScene';
+import Button from '../Objects/Button';
 
 const url = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/7igtBCocAtE2Il7lPcAc/scores';
 
@@ -38,7 +41,12 @@ export default class leaderBoardScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(window.innerWidth / 2, 10, `${gameConfig.user}`, { fontSize: '32px', fill: '#fff' });
-    this.add.text(window.innerWidth / 2, 40, 'SCORE: 0', { fontSize: '32px', fill: '#fff' });
+    this.add.text(config.width / 2, config.height / 2, `${config.user}`, { fontSize: '42px', fill: '#fff' });
+    this.add.text(config.width / 2, config.height / 2 + 40, `SCORE: ${score.points}`, { fontSize: '42px', fill: '#fff' });
+
+    const resetButton = this.add.text(config.width / 2, config.height / 2 + 100, 'Restart', { fontSize: '42px', fill: '#0f0' });
+    resetButton.setInteractive();
+
+    resetButton.on('pointerdown', () => { window.location.reload(); });
   }
 }

@@ -5,14 +5,14 @@ import { postScore } from './LeaderboardScene';
 let player;
 let platforms;
 let coins;
-let score = {
-  user: gameConfig.user,
-  points: 0,
-};
 let bombs;
 let nameText;
 let scoreText;
 let gameOver = false;
+export const score = {
+  user: gameConfig.user,
+  points: 0,
+};
 
 const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
   const textureWidth = scene.textures.get(texture).getSourceImage().width;
