@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import gameConfig from '../Config/config';
-import { postScore } from './LeaderboardScene';
+// eslint-disable-next-line import/no-cycle
+import { postScore } from './EndScene';
 
 let player;
 let platforms;
@@ -167,7 +168,7 @@ export default class GameScene extends Phaser.Scene {
 
     if (gameOver) {
       this.scene.transition({
-        target: 'LeaderBoard',
+        target: 'End',
         duration: 3000,
         remove: true,
       });

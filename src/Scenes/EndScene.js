@@ -37,7 +37,7 @@ getScores();
 
 export default class leaderBoardScene extends Phaser.Scene {
   constructor() {
-    super('LeaderBoard');
+    super('End');
   }
 
   create() {
