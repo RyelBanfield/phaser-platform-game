@@ -29,11 +29,13 @@ const createBGLoop = (scene, totalWidth, texture, scrollFactor) => {
 
 function collectCoin(player, coin) {
   coin.disableBody(true, true);
+  this.coinSound = this.sound.add('coinSound', { loop: false });
+  this.coinSound.play();
 
   score.score += 10;
   scoreText.setText(`SCORE: ${score.score}`);
 
-  if (coins.countActive(true) === 0) {
+  if (coins.countActive(true) === 15) {
     coins.children.iterate((child) => {
       child.enableBody(true, child.x, 0, true, true);
     });
@@ -54,6 +56,8 @@ function hitBomb(player) {
 
   player.setTint(0xff0000);
   player.anims.play('death');
+  this.deathSound = this.sound.add('deathSound', { loop: false });
+  this.deathSound.play();
 
   gameOver = true;
 }
