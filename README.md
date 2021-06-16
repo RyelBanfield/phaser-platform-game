@@ -4,6 +4,8 @@
 
 A platform game built with Phaser JS.
 
+Collect as many coins as you can. Bombs spawn so try to avoid them! Use your arrow keys to move.
+
 ![screenshot](./Screenshot.png)
 
 Additional description about the project and its features.
