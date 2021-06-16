@@ -1,12 +1,14 @@
 # Phaser Platform Game
 
-[Click here to view live demo]()
+[Click here to view live demo](https://ryelbanfield.github.io/phaser-platform-game/)
 
 A platform game built with Phaser JS.
 
 ![screenshot](./Screenshot.png)
 
 Additional description about the project and its features.
+
+View the GGD [here](GDD.md)
 
 ## Built With
 
@@ -48,3 +50,8 @@ Give a ⭐️ if you like this project!
 ## 📝 License
 
 This project is [MIT](LICENSE) licensed.
+
+I’m Not What I Thought by Darren Curtis
+Creative Commons Attribution 3.0 Unported License
+https://creativecommons.org/licenses/by/3.0/
+Music promoted by https://www.chosic.com/
